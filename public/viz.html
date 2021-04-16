@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Safe-DEED Tabular Data De-Anonymisation Risk Analysis</title>
+
+<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+<script type="text/javascript">
+
+var host = "http://localhost:";
+var port = "9090";
+
+function analyse() {
+	var url = host + port + "/testresponse";
+
+	var params = "";
+	
+	var http = new XMLHttpRequest();
+	
+	http.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	http.onreadystatechange = function() {//Call a function when the state changes.
+		if (http.readyState == 4 && http.status == 200) {
+			var resp = JSON.parse(http.responseText);
+			setOutput(resp);
+		}
+	}
+	
+	http.send(params);
+}
+
+function setOutput(resp) {
+	var output = document.getElementById('output');	
+		
+	var div = document.createElement('div');
+	div.id = "intplot";
+	output.appendChild(div);
+		
+	var xaxiss = [];
+	var yaxiss = [];
+	var texts = [];
+	
+	for (var i = 0; i < resp.length; i++) {
+		xaxiss[i] = resp[i].qis;
+		yaxiss[i] = resp[i].risk;
+		texts[i] = resp[i].combination;
+	}
+		
+	Plotly.newPlot(div, [{
+			x: xaxiss,
+			y: yaxiss,
+			type: 'scatter',
+			mode: 'markers',
+			text: texts
+		}],
+		{
+			margin: { t: 0 },
+			hovermode: 'closest',
+			xaxis: {
+				title: 'QIs',
+				titlefont: {
+					family: 'Arial, sans-serif',
+					size: 18,
+					color: 'grey'
+				},
+				showticklabels: true,
+				tickangle: 'auto',
+				tickfont: {
+					family: 'Old Standard TT, serif',
+					size: 14,
+				color: 'black'
+				},
+				exponentformat: 'e',
+				showexponent: 'all'
+			},
+			yaxis: {
+				title: 'Probability of De-Anonymisation (%)',
+				titlefont: {
+					family: 'Arial, sans-serif',
+					size: 18,
+					color: 'grey'
+				},
+				showticklabels: true,
+				tickangle: 'auto',
+				tickfont: {
+					family: 'Old Standard TT, serif',
+					size: 14,
+					color: 'black'
+				},
+				exponentformat: 'e',
+				showexponent: 'all'
+			}
+		} 
+	);
+}
+
+</script>
+</head>
+
+<body onload="analyse()">
+
+<p id="output">
+	
+</p>
+
+</body>
+
+</html>
+

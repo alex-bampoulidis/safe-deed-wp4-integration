@@ -1,0 +1,12 @@
+algorithms\TabularAlgorithm.class
+datatypes\Tabular.class
+prioprivacy\Suppression.class
+algorithms\Anonymise.class
+application\Application.class
+prioprivacy\Generalisation.class
+prioprivacy\PrioPrivacyOneThread.class
+prioprivacy\SuppressionOneThread.class
+prioprivacy\AlgorithmOtherFunctions.class
+prioprivacy\KAnonymityCheckForRowsWithSuppression.class
+application\Controller.class
+prioprivacy\PrioPrivacy.class
